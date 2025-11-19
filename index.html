@@ -1,0 +1,441 @@
+<ace html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>满屏飘字浪漫效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%); /* 浅橘色渐变背景 */
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .welcome-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff5e6; /* 浅橘色 */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            z-index: 1000;
+            animation: popupAppear 0.5s ease-out;
+            border: 1px solid #ffd8b3;
+        }
+        
+        @keyframes popupAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        .welcome-title {
+            font-size: 28px;
+            color: #e67e22; /* 橘色 */
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .welcome-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #d35400; /* 深橘色 */
+        }
+        
+        .welcome-btn {
+            background: #e67e22; /* 橘色 */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+        }
+        
+        .welcome-btn:hover {
+            background: #d35400; /* 深橘色 */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(211, 84, 0, 0.4);
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .text-popup {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 15px 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            max-width: 200px;
+            text-align: center;
+            cursor: default;
+            user-select: none;
+            animation: popupFloat 15s infinite linear;
+        }
+        
+        @keyframes popupFloat {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(15px, -15px);
+            }
+            50% {
+                transform: translate(0, -25px);
+            }
+            75% {
+                transform: translate(-15px, -15px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        .text-content {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: #fff5e6; /* 浅橘色 */
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border: 1px solid #ffd8b3;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #e67e22; /* 橘色 */
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background: #d35400; /* 深橘色 */
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* 橘色系弹窗样式 */
+        .popup-style-1 {
+            background: #fff5e6; /* 浅橘 */
+            color: #e67e22;
+            border: 1px solid #ffd8b3;
+        }
+        
+        .popup-style-2 {
+            background: #ffd8b3; /* 浅橘黄 */
+            color: #d35400;
+            border: 1px solid #ffc899;
+        }
+        
+        .popup-style-3 {
+            background: #ffb366; /* 橘黄 */
+            color: white;
+            border: 1px solid #ffa64d;
+        }
+        
+        .popup-style-4 {
+            background: #ff9933; /* 橘色 */
+            color: white;
+            border: 1px solid #ff8c1a;
+        }
+        
+        .popup-style-5 {
+            background: #e67e22; /* 深橘 */
+            color: white;
+            border: 1px solid #d35400;
+        }
+        
+        .popup-style-6 {
+            background: #d35400; /* 深橘红 */
+            color: white;
+            border: 1px solid #bf4800;
+        }
+        
+        .popup-style-7 {
+            background: #ffcc99; /* 浅橘粉 */
+            color: #d35400;
+            border: 1px solid #ffbf80;
+        }
+        
+        .popup-style-8 {
+            background: #ffad5c; /* 橘橙 */
+            color: white;
+            border: 1px solid #ff9933;
+        }
+    </style>
+</head>
+<body>
+    <!-- 欢迎弹窗 -->
+    <div class="welcome-popup" id="welcomePopup">
+        <div class="welcome-title">艾斯：</div>
+        <div class="welcome-text">
+           我生下来是件好事吗<br>
+        </div>
+        <button class="welcome-btn" id="confirmBtn">确定</button>
+    </div>
+    
+    <!-- 主内容区域 -->
+    <div class="container" id="container">
+        <!-- 飘动的弹窗文字将在这里生成 -->
+    </div>
+    
+    <div class="controls" id="controls">
+        <button class="btn" id="pauseBtn">暂停</button>
+        <button class="btn" id="addBtn">添加弹窗</button>
+        <button class="btn" id="clearBtn">清空</button>
+        <button class="btn" id="themeBtn">切换主题</button>
+    </div>
+
+    <script>
+        const texts = [
+            "你的诞生啊，是世界上最好的礼物",
+            "你的存在让世界更美好",
+            "每个人都因你而微笑",
+            "你是独一无二的存在",
+            "世界因你而不同",
+            "你的生命是珍贵的",
+            "你值得被爱和被珍惜",
+            "你的故事才刚刚开始",
+            "每一天都因你而特别",
+            "你是希望的象征",
+            "你的未来充满无限可能",
+            "你让这个世界更温暖",
+            "你的笑容能照亮一切",
+            "你是生命的奇迹",
+            "世界需要你的存在",
+            "你的价值无可替代",
+            "你是爱与希望的化身",
+            "你的生命是美丽的诗篇",
+            "你让世界变得更精彩",
+            "你是最特别的存在",
+            "你的存在本身就是一种美好",
+            "你是这个世界的光",
+            "你的生命值得庆祝",
+            "你让每一天都变得有意义",
+            "你是独一无二的星星",
+            "你的故事值得被讲述",
+            "你让世界充满希望",
+            "你的存在让一切不同",
+            "你是无可替代的",
+            "你的生命是宝贵的礼物",
+            "你给世界带来了温暖",
+            "你是如此重要",
+            "你的存在让生命更完整",
+            "你是世界的宝藏",
+            "你的笑容是最美的风景",
+            "你值得所有的美好",
+            "你是生命的礼物",
+            "你的存在本身就是答案",
+            "你是无可比拟的",
+            "你的光芒照亮了世界",
+            "你是勇敢的战士",
+            "你的心是善良的",
+            "你值得被看见",
+            "你是独特的个体",
+            "你的存在有意义",
+            "你是生命的奇迹",
+            "你是希望的灯塔",
+            "你的故事激励着他人",
+            "你是不可替代的",
+            "你是世界的一部分"
+        ];
+        
+        const popupStyles = [
+            'popup-style-1', 'popup-style-2', 'popup-style-3', 
+            'popup-style-4', 'popup-style-5', 'popup-style-6', 
+            'popup-style-7', 'popup-style-8'
+        ];
+        
+        let isPaused = false;
+        let isDarkTheme = false;
+        const textPopups = [];
+        let popupInterval;
+        
+        // 显示欢迎弹窗
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            const welcomePopup = document.getElementById('welcomePopup');
+            welcomePopup.style.opacity = '0';
+            welcomePopup.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
+            setTimeout(() => {
+                welcomePopup.style.display = 'none';
+                document.getElementById('container').style.display = 'block';
+                document.getElementById('controls').style.opacity = '1';
+                
+                // 开始逐个弹出小弹窗 - 50个弹窗，快速弹出
+                startPopupSequence();
+            }, 500);
+        });
+        
+        function startPopupSequence() {
+            let index = 0;
+            const totalPopups = 50; // 增加到50个弹窗
+            
+            popupInterval = setInterval(() => {
+                if (index < totalPopups) {
+                    createTextPopup();
+                    index++;
+                } else {
+                    clearInterval(popupInterval);
+                }
+            }, 150); // 加快到150毫秒间隔
+        }
+        
+        function createTextPopup() {
+            const container = document.getElementById('container');
+            const textPopup = document.createElement("div");
+            textPopup.className = "text-popup";
+            
+            // 随机选择样式
+            const styleClass = popupStyles[Math.floor(Math.random() * popupStyles.length)];
+            textPopup.classList.add(styleClass);
+            
+            // 添加文字内容
+            const textContent = document.createElement("div");
+            textContent.className = "text-content";
+            textContent.innerText = texts[Math.floor(Math.random() * texts.length)];
+            textPopup.appendChild(textContent);
+            
+            // 随机初始位置
+            const containerRect = container.getBoundingClientRect();
+            const x = Math.random() * (containerRect.width - 200);
+            const y = Math.random() * (containerRect.height - 100);
+            
+            textPopup.style.left = `${x}px`;
+            textPopup.style.top = `${y}px`;
+            
+            // 随机动画持续时间，使弹窗移动速度不同
+            const duration = 8 + Math.random() * 12;
+            textPopup.style.animationDuration = `${duration}s`;
+            
+            container.appendChild(textPopup);
+            
+            // 淡入效果
+            setTimeout(() => {
+                textPopup.style.opacity = "1";
+            }, 100);
+            
+            // 存储弹窗数据
+            const popupData = {
+                element: textPopup,
+                x: x,
+                y: y,
+                width: containerRect.width,
+                height: containerRect.height
+            };
+            
+            textPopups.push(popupData);
+            
+            return popupData;
+        }
+        
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            const body = document.body;
+            
+            if (isDarkTheme) {
+                body.style.background = '#2c3e50'; /* 深蓝色背景 */
+                document.querySelector('.controls').style.background = '#34495e';
+                document.querySelector('.controls').style.color = '#ecf0f1';
+                document.querySelector('.controls').style.border = '1px solid #2c3e50';
+            } else {
+                body.style.background = 'linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%)'; /* 浅橘色渐变 */
+                document.querySelector('.controls').style.background = '#fff5e6';
+                document.querySelector('.controls').style.color = '#333';
+                document.querySelector('.controls').style.border = '1px solid #ffd8b3';
+            }
+        }
+        
+        // 控制功能
+        document.getElementById('pauseBtn').addEventListener('click', function() {
+            isPaused = !isPaused;
+            this.textContent = isPaused ? '继续' : '暂停';
+            
+            if (isPaused) {
+                clearInterval(popupInterval);
+                document.querySelectorAll('.text-popup').forEach(popup => {
+                    popup.style.animationPlayState = 'paused';
+                });
+            } else {
+                document.querySelectorAll('.text-popup').forEach(popup => {
+                    popup.style.animationPlayState = 'running';
+                });
+            }
+        });
+        
+        document.getElementById('addBtn').addEventListener('click', function() {
+            // 一次添加10个弹窗
+            for (let i = 0; i < 10; i++) {
+                createTextPopup();
+            }
+        });
+        
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            const container = document.getElementById('container');
+            // 只清除弹窗
+            const popups = container.querySelectorAll('.text-popup');
+            popups.forEach(popup => {
+                container.removeChild(popup);
+            });
+            textPopups.length = 0;
+        });
+        
+        document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>
